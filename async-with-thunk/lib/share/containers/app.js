@@ -8,7 +8,6 @@ export class App extends Component {
     const { dispatch, users, pending } = this.props
     return (
       <div>
-        hello
         <ul>
           {users.map((user, i) =>
             <li key={i}>{user}</li>
