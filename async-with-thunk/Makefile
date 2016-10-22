@@ -31,7 +31,7 @@ bundle: node_modules
 
 lint: node_modules
 	@echo $(TAG)$@$(END)
-	$(NPM)/eslint '{lib/**/*.js}'
+	$(NPM)/eslint 'lib/**/*.js'
 
 clean:
 	@echo $(TAG)$@$(END)
