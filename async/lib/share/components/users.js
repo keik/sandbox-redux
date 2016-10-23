@@ -1,7 +1,25 @@
 import React, { Component, PropTypes } from 'react'
 
+import * as API from '../api'
+
 export default class Users extends Component {
+  constructor() {
+    super()
+    console.log('constructor')
+  }
+
+  componentWillMount() {
+    console.log('componentWillMount')
+    API.fetchUsers(this.props.dispatch)
+      .then(users => this.setState({users}))
+  }
+
+  componentDidMount() {
+    console.log('componentDidMount')
+  }
+
   render = () => {
+    console.log(this.props)
     const { API, actions, dispatch, users, pending } = this.props
     return (
       <div>
