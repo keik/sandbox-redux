@@ -3,6 +3,11 @@ import React, { Component, PropTypes } from 'react'
 import * as API from '../api'
 
 export default class Users extends Component {
+
+  static fetchData(dispatch) {
+    return API.fetchUsers(dispatch)
+  }
+
   constructor() {
     super()
     console.log('constructor')
