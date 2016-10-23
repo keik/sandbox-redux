@@ -1,20 +1,28 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
-import { createStore, applyMiddleware } from 'redux'
+import { Router, Route, browserHistory } from 'react-router'
+import { syncHistoryWithStore, routerReducer } from 'react-router-redux'
+import { createStore, applyMiddleware, combineReducers } from 'redux'
 import createLogger from 'redux-logger'
 
-import reducers from '../share/reducers'
+import * as reducers from '../share/reducers'
 import App from '../share/containers/app-container'
 
 const logger = createLogger()
 const store = createStore(
-  reducers,
+  combineReducers({
+    ...reducers,
+    routing: routerReducer
+  }),
   applyMiddleware(logger)
 )
+const history = syncHistoryWithStore(browserHistory, store)
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <Router history={history}>
+      <Route path="/" component={App} />
+    </Router>
   </Provider>,
   global.document.getElementById('app'))

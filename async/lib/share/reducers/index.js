@@ -5,7 +5,7 @@ const initialState = {
   pending: false
 }
 
-export default function user(state = initialState, action) {
+export function user(state = initialState, action) {
   console.log(action.type, state)
   switch(action.type) {
     case ADD_USER:

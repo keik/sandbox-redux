@@ -5,7 +5,7 @@ import * as actions from '../actions'
 import * as API from '../api'
 
 export default connect(
-  (state) => (state),
+  (state) => (state.user),
   (dispatch) => ({
     dispatch,
     actions,
