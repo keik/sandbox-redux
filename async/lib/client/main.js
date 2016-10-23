@@ -5,7 +5,7 @@ import { createStore, applyMiddleware } from 'redux'
 import createLogger from 'redux-logger'
 
 import reducers from '../share/reducers'
-import App from '../share/containers/app'
+import App from '../share/containers/app-container'
 
 const logger = createLogger()
 const store = createStore(

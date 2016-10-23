@@ -1,12 +1,9 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import * as actions from '../actions'
-import * as API from '../api'
 
-export class App extends Component {
+export default class App extends Component {
   render = () => {
     console.log(this.props)
-    const { API, dispatch, users, pending } = this.props
+    const { API, actions, dispatch, users, pending } = this.props
     return (
       <div>
         <ul>
@@ -32,8 +29,3 @@ export class App extends Component {
     )
   }
 }
-
-export default connect(
-  (state) => (state),
-  (dispatch) => ({dispatch, API})
-)(App)
