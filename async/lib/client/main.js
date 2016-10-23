@@ -8,6 +8,7 @@ import createLogger from 'redux-logger'
 
 import * as reducers from '../share/reducers'
 import App from '../share/containers/app-container'
+import Users from '../share/containers/users-container'
 
 const logger = createLogger()
 const store = createStore(
@@ -22,7 +23,9 @@ const history = syncHistoryWithStore(browserHistory, store)
 ReactDOM.render(
   <Provider store={store}>
     <Router history={history}>
-      <Route path="/" component={App} />
+      <Route path="/" component={App}>
+        <Route path="users" component={Users} />
+      </Route>
     </Router>
   </Provider>,
   global.document.getElementById('app'))
