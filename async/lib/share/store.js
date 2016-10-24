@@ -9,7 +9,7 @@ export default function configureStore(initialState) {
   return createStore(
     combineReducers({
       ...reducers,
-      /* routing: routerReducer */
+      routing: routerReducer
     }),
     initialState,
     applyMiddleware(logger)

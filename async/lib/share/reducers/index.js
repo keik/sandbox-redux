@@ -13,7 +13,7 @@ export function user(state = initialState, action) {
     case FETCH_USERS_PENDING:
       return Object.assign({}, state, {pending: true})
     case FETCH_USERS_RESOLVED:
-      return Object.assign({}, state, {users: action.users, pending: false})
+      return Object.assign({}, state, {users: action.users, pending: false, fetched: true})
     default:
       return state
   }

@@ -16,4 +16,4 @@ ReactDOM.render(
       {routes}
     </Router>
   </Provider>,
-  global.document.getElementById('app'), window.__INITIAL_STATE__)
+  global.document.getElementById('app'))

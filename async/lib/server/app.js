@@ -8,9 +8,7 @@ import routes from '../share/routes'
 import createConfigureStore from '../share/store'
 
 const app = new express()
-const store = createConfigureStore()
 
-app.use(express.static('public'))
 app.use(express.static('bundle'))
 
 const renderFullPage = (html, state) => {
@@ -19,14 +17,14 @@ const renderFullPage = (html, state) => {
     <html>
       <head>
         <meta charset="utf-8">
-        <title>server-side rendering with asynchronous API</title>
+        <title></title>
       </head>
       <body>
         <div id="app">${html}</div>
         <script>
-          window.__INITIAL_STATE__ = ${serialize(state)};
+          window.__INITIAL_STATE__ = ${JSON.stringify(state)};
         </script>
-        <script src="/static/bundle.js"></script>
+        <script src="bundle.js"></script>
       </body>
     </html>
   `
@@ -35,27 +33,29 @@ const renderFullPage = (html, state) => {
 app.use((req, res) => {
   match({ routes, location: req.url }, (error, redirectLocation, renderProps) => {
     if (error) {
-      res.status(500).send(error.message)
+      res.status(500).end(error.message)
     } else if (redirectLocation) {
       res.redirect(302, redirectLocation.pathname + redirectLocation.search)
     } else if (renderProps) {
-      // You can also check renderProps.components or renderProps.routes for
-      // your "not found" component or route respectively, and send a 404 as
-      // below, if you're using a catch-all route.
-      Promise.all(renderProps.components.map(c => c.fetchData ?
-                                                c.fetchData(store.dispatch) :
-                                                Promise.resolve('no fetching')))
-                                       .then(() => {
-                                         const html = renderToString(
-                                           <Provider store={store}>
-                                             <RouterContext {...renderProps} />
-                                           </Provider>
-                                         )
-                                         res.send(renderFullPage(html, store.getState()))
-                                       })
-                                       .catch((err) => res.end(err.toString()))
+      const store = createConfigureStore()
+      Promise
+        .all(renderProps.components.map(c => c.fetchData ?
+                                           c.fetchData(store.dispatch) :
+                                           Promise.resolve(false)))
+        .then((r) => {
+          const html = renderToString(
+            <Provider store={store}>
+              <RouterContext {...renderProps} />
+            </Provider>
+          )
+          res.end(renderFullPage(html, Object.assign({}, store.getState())))
+        })
+        .catch((err) => {
+          console.error(err)
+          res.end(err.toString())
+        })
     } else {
-      res.status(404).send('Not found')
+      res.status(404).end('Not found')
     }
   })
 })
